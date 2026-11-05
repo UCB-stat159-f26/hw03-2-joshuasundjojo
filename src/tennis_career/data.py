@@ -12,8 +12,8 @@ def _normalize_name(name):
 
 def _parse_matches(js_text):
     """Extract the list of match rows from a career JS file as Python lists."""
-    match = re.search(r"\[\[.*?\]\]", js_text, re.DOTALL)
-    return json.loads(match.group(0))
+    payload = js_text.split("=", 1)[1].strip().rstrip(";")
+    return json.loads(payload)
 
 KEEP = {0: "date", 1: "tournament", 2: "surface", 4: "result",
         8: "round", 11: "opponent", 16: "opp_info"}
