@@ -3,6 +3,7 @@
 import json
 import re
 import pandas as pd
+import requests
 
 def _normalize_name(name):
     """Convert player name to the format used in tennisabstract"""
@@ -59,3 +60,13 @@ def _find_dob(html):
     if match is None:
         raise ValueError("Could not find this player's date of birth.")
     return match.group(1)
+
+BASE_URL = "https://www.tennisabstract.com"
+
+def _fetch_career(name):
+    """Download a player's career JS file; raise a clear error if the player is unknown."""
+    response = requests.get(f"{BASE_URL}/jsmatches/{name}Career.js", timeout=30)
+    if response.status_code == 404:
+        raise ValueError(f"No player found for '{name}'. Check the full name's spelling.")
+    response.raise_for_status()
+    return response.text
