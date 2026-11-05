@@ -23,3 +23,9 @@ def _base_frame(rows):
     df.columns = list(KEEP.values())
     df["date"] = pd.to_datetime(df["date"], format="%Y%m%d")
     return df
+
+    def _years_between(start, end):
+    """Time in years between two dates."""
+    return (end - start).dt.days / 365.25
+
+    
