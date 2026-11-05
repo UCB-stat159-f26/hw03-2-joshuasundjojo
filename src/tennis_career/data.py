@@ -76,3 +76,12 @@ def _fetch_dob(name, female):
     page = "wplayer" if female else "player"
     response = requests.get(f"{BASE_URL}/cgi-bin/{page}.cgi", params={"p": name}, timeout=30)
     return _find_dob(response.text)
+
+def get_player_matches(name):
+    """Return the DataFrame of a player's career matches from tennisabstract.com."""
+    name = _normalize_name(name)
+    rows = _parse_matches(_fetch_career(name))
+    female = _is_female(rows)
+    dob = _fetch_dob(name, female)
+    clean = _clean_female if female else _clean_male
+    return clean(rows, dob)
