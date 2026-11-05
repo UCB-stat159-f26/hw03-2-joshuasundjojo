@@ -70,3 +70,9 @@ def _fetch_career(name):
         raise ValueError(f"No player found for '{name}'. Check the full name's spelling.")
     response.raise_for_status()
     return response.text
+
+def _fetch_dob(name, female):
+    """Look up the player's birthday on their women's or men's player page."""
+    page = "wplayer" if female else "player"
+    response = requests.get(f"{BASE_URL}/cgi-bin/{page}.cgi", params={"p": name}, timeout=30)
+    return _find_dob(response.text)
