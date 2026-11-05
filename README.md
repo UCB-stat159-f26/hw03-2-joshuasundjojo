@@ -6,7 +6,7 @@ the age gap between the player and their opponents over time.
 ## Installation
 
 ```bash
-pip install git+https://github.com/joshuasundjojo/hw03-2-joshuasundjojo.git
+pip install git+https://github.com/UCB-stat159-f26/hw03-2-joshuasundjojo.git
 ```
 
 ## Usage
