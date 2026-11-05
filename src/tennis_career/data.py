@@ -47,3 +47,15 @@ def _clean_female(rows, dob):
     opp_born = pd.to_datetime(df.pop("opp_info"), format="%Y%m%d", errors="coerce")
     df["opp_age"] = _years_between(opp_born, df["date"])
     return _add_ages(df, dob)
+
+def _is_female(rows):
+    """Female rows list the opponent's birthday (8 digits); male rows give an age."""
+    return any(re.fullmatch(r"\d{8}", str(row[16])) for row in rows)
+
+
+def _find_dob(html):
+    """Pull the player's birthday (yyyymmdd) out of a player page's text."""
+    match = re.search(r"dob\s*=\s*(\d{8})", html)
+    if match is None:
+        raise ValueError("Could not find this player's date of birth.")
+    return match.group(1)
