@@ -40,3 +40,10 @@ def _clean_male(rows, dob):
     df = _base_frame(rows)
     df["opp_age"] = pd.to_numeric(df.pop("opp_info"), errors="coerce")
     return _add_ages(df, dob)
+
+def _clean_female(rows, dob):
+    """Clean a female player's rows; opponent age is derived from their birthday."""
+    df = _base_frame(rows)
+    opp_born = pd.to_datetime(df.pop("opp_info"), format="%Y%m%d", errors="coerce")
+    df["opp_age"] = _years_between(opp_born, df["date"])
+    return _add_ages(df, dob)
