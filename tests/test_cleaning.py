@@ -1,8 +1,8 @@
-from tennis_career.data import _normalize_name
-
 from pathlib import Path
 
-from tennis_career.data import _normalize_name, _parse_matches
+import pytest
+
+from tennis_career.data import _normalize_name, _clean_male, _parse_matches
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -24,3 +24,12 @@ def test_parse_matches_male():
     rows = _parse_matches((FIXTURES / "MalePlayerCareer.JS").read_text())
     assert len(rows) == 3
     assert rows[0][11] == "Guillermo Platel"
+
+def test_clean_male():
+    rows = _parse_matches((FIXTURES / "MalePlayerCareer.JS").read_text())
+    df = _clean_male(rows, "19860603")
+    assert list(df.columns) == ["date", "tournament", "surface", "result", "round",
+                                "opponent", "opp_age", "age", "age_diff"]
+    assert df.loc[0, "result"] == "L"
+    assert df.loc[0, "age"] == pytest.approx(15.27, abs=0.05)
+    assert df.loc[0, "age_diff"] == pytest.approx(-6.99, abs=0.05)
