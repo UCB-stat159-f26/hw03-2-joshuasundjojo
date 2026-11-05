@@ -34,3 +34,9 @@ def _add_ages(df, dob):
     df["age"] = _years_between(born, df["date"])
     df["age_diff"] = df["age"] - df["opp_age"]
     return df    
+
+def _clean_male(rows, dob):
+    """Clean a male player's rows; the opponent's age is given directly."""
+    df = _base_frame(rows)
+    df["opp_age"] = pd.to_numeric(df.pop("opp_info"), errors="coerce")
+    return _add_ages(df, dob)
