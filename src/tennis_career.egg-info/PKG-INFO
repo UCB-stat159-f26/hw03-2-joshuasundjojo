@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: tennis_career
+Version: 0.1.0
+Summary: Fetch a tennis player's career matches from tennisabstract.com and plot age against opponent's age gap.
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: requests
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+
+# tennis_career
+
+Fetching a tennis player's career matches from tennisabstract.com and plotting them.
