@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from tennis_career.data import _normalize_name, _clean_male, _parse_matches, _clean_female
+from tennis_career.data import _normalize_name, _clean_male, _parse_matches, _clean_female, _find_dob, _is_female
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -41,3 +41,15 @@ def test_clean_female():
     assert df.loc[0, "opp_age"] == pytest.approx(18.78, abs=0.05)
     assert df.loc[0, "age"] == pytest.approx(14.09, abs=0.05)
     assert df.loc[0, "age_diff"] == pytest.approx(-4.69, abs=0.05)
+
+def test_is_female():
+    female = _parse_matches((FIXTURES / "FemalePlayerCareer.JS").read_text())
+    male = _parse_matches((FIXTURES / "MalePlayerCareer.JS").read_text())
+    assert _is_female(female)
+    assert not _is_female(male)
+
+
+def test_find_dob():
+    assert _find_dob("var x = 1; dob = 19810926; var y = 2") == "19810926"
+    with pytest.raises(ValueError):
+        _find_dob("<html>no birthday here</html>")
