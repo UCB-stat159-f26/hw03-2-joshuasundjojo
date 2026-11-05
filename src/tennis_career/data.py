@@ -24,8 +24,13 @@ def _base_frame(rows):
     df["date"] = pd.to_datetime(df["date"], format="%Y%m%d")
     return df
 
-    def _years_between(start, end):
+def _years_between(start, end):
     """Time in years between two dates."""
     return (end - start).dt.days / 365.25
 
-    
+def _add_ages(df, dob):
+    """Add the player's age and the age difference."""
+    born = pd.to_datetime(str(dob), format="%Y%m%d")
+    df["age"] = _years_between(born, df["date"])
+    df["age_diff"] = df["age"] - df["opp_age"]
+    return df    
