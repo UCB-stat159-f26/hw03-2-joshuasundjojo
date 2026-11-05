@@ -7,7 +7,7 @@ name = "tennis_career"
 version = "0.1.0"
 description = "Fetch a tennis player's career matches from tennisabstract.com and plot age against opponent's age gap."
 readme = "README.md"
-python = ">=3.9"
+requires-python = ">=3.9"
 dependencies = [
     "pandas",
     "matplotlib",
